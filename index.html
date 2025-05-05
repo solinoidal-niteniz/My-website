@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#2196f3" />
   <title>OMR App</title>
-  <link rel="stylesheet" href="style.css?v=3" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
@@ -15,23 +15,23 @@
       <button onclick="resetAll()">Reset</button>
       <button onclick="undoLast()">Undo</button>
     </div>
+
+    <!-- Countdown Timer (always on top-left corner) -->
+    <div id="countdown-container" style="display: none;"></div>
+
+    <!-- Start Timer (top-right corner) -->
+    <button id="start-timer-btn" onclick="startTimer()" style="display: none;">Start Timer</button>
+
     <div id="omr-sheet" class="omr-sheet"></div>
+
     <div style="text-align:center; margin-top: 20px;">
       <button onclick="showSummary()">Submit</button>
     </div>
+
     <div id="summary" style="display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; margin: 20px;"></div>
     <div id="attempt-summary" style="margin-top: 20px; font-weight: bold; font-size: 16px;"></div>
   </div>
 
-  <script src="script.js?v=3"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('service-worker.js')
-          .then(reg => console.log('Service Worker registered:', reg))
-          .catch(err => console.log('Service Worker registration failed:', err));
-      });
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
