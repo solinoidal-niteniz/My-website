@@ -1,39 +1,53 @@
 let totalQuestions = 0;
+let history = [];
+let omrSheet = document.getElementById('omr-sheet');
 
-while (true) {
+document.getElementById("start-btn").onclick = function () {
   let input = prompt("Enter number of questions (1 to 200):");
+  if (input === null) return;  // Cancel pressed
+
   totalQuestions = parseInt(input);
 
   if (!isNaN(totalQuestions) && totalQuestions >= 1 && totalQuestions <= 200) {
-    break;
+    this.style.display = "none";
+    document.getElementById("start-again-btn").style.display = "inline-block";
+    createOMRSheet(totalQuestions);
   } else {
     alert("Please enter a valid number between 1 and 200.");
   }
-}
-let omrSheet = document.getElementById('omr-sheet');
-let history = [];
+};
 
-function createOMRSheet(totalQuestions = 180) {
-  for (let i = 1; i <= totalQuestions; i++) {
-    let qDiv = document.createElement('div');
+document.getElementById("start-again-btn").onclick = function () {
+  omrSheet.innerHTML = "";
+  document.getElementById("summary").innerHTML = "";
+  document.getElementById("attempt-summary").innerText = "";
+  history = [];
+
+  this.style.display = "none";
+  document.getElementById("start-btn").style.display = "inline-block";
+};
+
+function createOMRSheet(total) {
+  for (let i = 1; i <= total; i++) {
+    const qDiv = document.createElement('div');
     qDiv.className = 'question';
     qDiv.setAttribute('data-question', i);
 
-    let label = document.createElement('div');
+    const label = document.createElement('div');
     label.className = 'q-label';
     label.textContent = `Q${i}.`;
 
     qDiv.appendChild(label);
 
     ['a', 'b', 'c', 'd'].forEach(opt => {
-      let circle = document.createElement('div');
+      const circle = document.createElement('div');
       circle.className = 'option';
       circle.textContent = opt;
       circle.setAttribute('data-value', opt);
       circle.onclick = function () {
-        [...qDiv.getElementsByClassName('option')].forEach(opt => opt.classList.remove('selected'));
-        circle.classList.add('selected');
-        history.push(circle);
+        qDiv.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+        this.classList.add('selected');
+        history.push(this);
       };
       qDiv.appendChild(circle);
     });
@@ -43,7 +57,7 @@ function createOMRSheet(totalQuestions = 180) {
 }
 
 function resetAll() {
-  document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+  document.querySelectorAll('.option.selected').forEach(opt => opt.classList.remove('selected'));
   history = [];
   document.getElementById("summary").innerHTML = "";
   document.getElementById("attempt-summary").innerText = "";
@@ -51,7 +65,7 @@ function resetAll() {
 
 function undoLast() {
   if (history.length > 0) {
-    let last = history.pop();
+    const last = history.pop();
     last.classList.remove('selected');
   }
 }
@@ -59,12 +73,11 @@ function undoLast() {
 function showSummary() {
   const summaryDiv = document.getElementById("summary");
   const attemptSummaryDiv = document.getElementById("attempt-summary");
-
   summaryDiv.innerHTML = "";
-  let attempted = 0;
-  let unattempted = 0;
 
-  for (let i = 1; i <= totalQuestions; i++) {  // ← Use the dynamic value
+  let attempted = 0;
+
+  for (let i = 1; i <= totalQuestions; i++) {
     const qDiv = document.querySelector(`.question[data-question="${i}"]`);
     const selected = qDiv.querySelector('.option.selected');
     if (selected) {
@@ -73,26 +86,9 @@ function showSummary() {
       item.textContent = `Q${i}. (${answer})`;
       summaryDiv.appendChild(item);
       attempted++;
-    } else {
-      unattempted++;
     }
   }
 
-  // If you still want to show this summary line, otherwise skip this
+  let unattempted = totalQuestions - attempted;
   attemptSummaryDiv.innerText = `Total Attempted: ${attempted} | Total Unattempted: ${unattempted}`;
 }
-
-createOMRSheet(totalQuestions);
-
-
-
-
-
-
-
-
-
-
-
-
-
