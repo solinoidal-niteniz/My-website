@@ -45,10 +45,16 @@ function createOMRSheet(total) {
       circle.textContent = opt;
       circle.setAttribute('data-value', opt);
       circle.onclick = function () {
-        qDiv.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
-        this.classList.add('selected');
-        history.push(this);
-      };
+  // Check if any option in this question is already selected
+  const alreadySelected = qDiv.querySelector('.option.selected');
+  if (alreadySelected) {
+    return; // Do nothing if already selected (locked)
+  }
+
+  // Lock this option
+  circle.classList.add('selected');
+  history.push(circle);
+};
       qDiv.appendChild(circle);
     });
 
