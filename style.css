@@ -1,0 +1,107 @@
+/* Base Page Styling */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #e9eff5;
+  padding: 20px;
+}
+
+/* Main Container */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Top Controls (Reset / Submit etc.) */
+.top-controls {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* OMR Layout */
+.omr-sheet {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Each Question Block */
+.question {
+  width: 48%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+/* Question Number */
+.q-label {
+  width: 50px;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+/* Option Buttons */
+.option {
+  width: 32px;
+  height: 32px;
+  margin: 5px;
+  border-radius: 50%;
+  border: 2px solid #3f3e3d;
+  text-align: center;
+  line-height: 30px;
+  font-weight: bold;
+  color: #444;
+  background-color: #fff;
+  cursor: pointer;
+
+  user-select: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Tap Effect */
+.option:active {
+  transform: scale(0.96);
+}
+
+/* Remove blue flash on focus */
+.option:focus {
+  outline: none;
+}
+
+/* Selected Option Styling */
+.option.selected {
+  background-color: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+/* Responsive for Small Screens */
+@media (max-width: 768px) {
+  .question {
+    width: 100%;
+  }
+}
