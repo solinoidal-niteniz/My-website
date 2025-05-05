@@ -3,7 +3,7 @@ body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   background: #e9eff5;
-  padding: 20px;
+  padding: 10px;
 }
 
 /* Main Container */
@@ -11,23 +11,23 @@ body {
   max-width: 1100px;
   margin: auto;
   background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Top Controls (Reset / Submit etc.) */
 .top-controls {
   text-align: right;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 button {
-  margin-left: 10px;
-  padding: 10px 20px;
-  font-size: 14px;
+  margin-left: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
   background-color: #007bff;
   color: white;
   cursor: pointer;
@@ -42,35 +42,36 @@ button:hover {
 .omr-sheet {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 15px;
 }
 
 /* Each Question Block */
 .question {
-  width: 48%;
+  width: 31.5%; /* 3 columns */
   display: flex;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   flex-wrap: wrap;
 }
 
 /* Question Number */
 .q-label {
-  width: 50px;
+  width: 40px;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 /* Option Buttons */
 .option {
-  width: 32px;
-  height: 32px;
-  margin: 5px;
+  width: 28px;
+  height: 28px;
+  margin: 3px;
   border-radius: 50%;
   border: 2px solid #3f3e3d;
   text-align: center;
-  line-height: 30px;
+  line-height: 26px;
   font-weight: bold;
+  font-size: 13px;
   color: #444;
   background-color: #fff;
   cursor: pointer;
@@ -79,7 +80,7 @@ button:hover {
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+  transition: all 0.2s ease;
 }
 
 /* Tap Effect */
@@ -99,9 +100,27 @@ button:hover {
   border-color: #000;
 }
 
-/* Responsive for Small Screens */
+/* Responsive for Medium Screens */
 @media (max-width: 768px) {
   .question {
-    width: 100%;
+    width: 48%; /* 2 columns on tablets */
+  }
+}
+
+/* Responsive for Small Screens */
+@media (max-width: 500px) {
+  .question {
+    width: 100%; /* 1 column on phones */
+  }
+
+  .q-label {
+    font-size: 13px;
+  }
+
+  .option {
+    width: 26px;
+    height: 26px;
+    line-height: 24px;
+    font-size: 12px;
   }
 }
