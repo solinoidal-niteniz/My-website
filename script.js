@@ -57,7 +57,7 @@ function createOMRSheet(total, optionCount, labelType) {
 
     const label = document.createElement('div');
     label.className = 'q-label';
-    label.textContent = Q${i}.;
+    label.textContent = `Q${i}.`;
     qDiv.appendChild(label);
 
     let options = [];
@@ -114,12 +114,12 @@ function showSummary() {
   let attempted = 0, correct = 0, incorrect = 0;
 
   for (let i = 1; i <= totalQuestions; i++) {
-    const qDiv = document.querySelector(.question[data-question="${i}"]);
+    const qDiv = document.querySelector(`.question[data-question="${i}"]`);
     const selected = qDiv.querySelector('.option.selected');
     if (selected) {
       const answer = selected.getAttribute('data-value');
       const item = document.createElement("div");
-      item.textContent = Q${i}. (${answer});
+      item.textContent = `Q${i}. (${answer})`;
       item.classList.add('summary-item');
 
       item.addEventListener('click', function () {
@@ -140,7 +140,7 @@ function showSummary() {
   }
 
   let unattempted = totalQuestions - attempted;
-  attemptSummaryDiv.innerText = Total Attempted: ${attempted} | Total Unattempted: ${unattempted} | Correct: 0 | Incorrect: 0;
+  attemptSummaryDiv.innerText = `Total Attempted: ${attempted} | Total Unattempted: ${unattempted} | Correct: 0 | Incorrect: 0`;
 }
 
 function updateFooter() {
@@ -156,7 +156,7 @@ function updateFooter() {
   let unattempted = totalQuestions - attempted;
 
   document.getElementById("attempt-summary").innerText =
-    Total Attempted: ${attempted} | Total Unattempted: ${unattempted} | Correct: ${correct} | Incorrect: ${incorrect};
+    `Total Attempted: ${attempted} | Total Unattempted: ${unattempted} | Correct: ${correct} | Incorrect: ${incorrect}`;
 }
 
 function startTimer() {
@@ -186,7 +186,7 @@ function startTimer() {
 
     const mins = Math.floor(time / 60);
     const secs = time % 60;
-    container.textContent = Time Left: ${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')};
+    container.textContent = `Time Left: ${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
     time--;
   }, 1000);
 }
