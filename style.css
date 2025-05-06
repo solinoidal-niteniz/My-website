@@ -141,3 +141,24 @@ button:hover {
 #start-timer-btn:hover {
   background-color: #218838;
 }
+
+.summary-item {
+  padding: 6px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  transition: background-color 0.3s ease;
+}
+
+.summary-item.correct {
+  background-color: #28a745;
+  color: white;
+}
+
+.summary-item.incorrect {
+  background-color: #dc3545;
+  color: white;
+}
