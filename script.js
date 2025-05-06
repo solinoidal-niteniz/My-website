@@ -7,7 +7,6 @@ document.getElementById("start-btn").onclick = function () {
   let input = prompt("Enter number of questions (1 to 200):");
   if (input === null) return;
   totalQuestions = parseInt(input);
-
   if (isNaN(totalQuestions) || totalQuestions < 1 || totalQuestions > 200) {
     alert("Please enter a valid number between 1 and 200.");
     return;
@@ -16,18 +15,14 @@ document.getElementById("start-btn").onclick = function () {
   let optionCount = prompt("How many options per question? (2 to 5):");
   if (optionCount === null) return;
   optionCount = parseInt(optionCount);
-
   if (isNaN(optionCount) || optionCount < 2 || optionCount > 5) {
     alert("Please enter a number between 2 and 5.");
     return;
   }
 
-  let labelType = prompt(
-    "Choose label format:\n1 for a, b, c, ...\n2 for A, B, C, ...\n3 for 1, 2, 3, ..."
-  );
+  let labelType = prompt("Choose label format:\n1 for a, b, c...\n2 for A, B, C...\n3 for 1, 2, 3...");
   if (labelType === null) return;
   labelType = parseInt(labelType);
-
   if (![1, 2, 3].includes(labelType)) {
     alert("Please enter 1, 2 or 3.");
     return;
@@ -35,9 +30,7 @@ document.getElementById("start-btn").onclick = function () {
 
   this.style.display = "none";
   document.getElementById("start-again-btn").style.display = "inline-block";
-
   createOMRSheet(totalQuestions, optionCount, labelType);
-
   document.getElementById("start-timer-btn").style.display = "inline-block";
 };
 
@@ -49,10 +42,8 @@ document.getElementById("start-again-btn").onclick = function () {
   document.getElementById("summary").innerHTML = "";
   document.getElementById("attempt-summary").innerText = "";
   history = [];
-
   this.style.display = "none";
   document.getElementById("start-btn").style.display = "inline-block";
-
   stopCountdown();
   document.getElementById("countdown-container").style.display = "none";
   document.getElementById("start-timer-btn").style.display = "none";
@@ -66,7 +57,7 @@ function createOMRSheet(total, optionCount, labelType) {
 
     const label = document.createElement('div');
     label.className = 'q-label';
-    label.textContent = `Q${i}.`;
+    label.textContent = Q${i}.;
     qDiv.appendChild(label);
 
     let options = [];
@@ -103,7 +94,6 @@ function resetAll() {
   history = [];
   document.getElementById("summary").innerHTML = "";
   document.getElementById("attempt-summary").innerText = "";
-
   stopCountdown();
   document.getElementById("countdown-container").style.display = "none";
   document.getElementById("start-timer-btn").style.display = "inline-block";
@@ -121,22 +111,52 @@ function showSummary() {
   const attemptSummaryDiv = document.getElementById("attempt-summary");
   summaryDiv.innerHTML = "";
 
-  let attempted = 0;
+  let attempted = 0, correct = 0, incorrect = 0;
 
   for (let i = 1; i <= totalQuestions; i++) {
-    const qDiv = document.querySelector(`.question[data-question="${i}"]`);
+    const qDiv = document.querySelector(.question[data-question="${i}"]);
     const selected = qDiv.querySelector('.option.selected');
     if (selected) {
       const answer = selected.getAttribute('data-value');
       const item = document.createElement("div");
-      item.textContent = `Q${i}. (${answer})`;
+      item.textContent = Q${i}. (${answer});
+      item.classList.add('summary-item');
+
+      item.addEventListener('click', function () {
+        if (item.classList.contains('correct')) {
+          item.classList.remove('correct');
+          item.classList.add('incorrect');
+        } else if (item.classList.contains('incorrect')) {
+          item.classList.remove('incorrect');
+        } else {
+          item.classList.add('correct');
+        }
+        updateFooter();
+      });
+
       summaryDiv.appendChild(item);
       attempted++;
     }
   }
 
   let unattempted = totalQuestions - attempted;
-  attemptSummaryDiv.innerText = `Total Attempted: ${attempted} | Total Unattempted: ${unattempted}`;
+  attemptSummaryDiv.innerText = Total Attempted: ${attempted} | Total Unattempted: ${unattempted} | Correct: 0 | Incorrect: 0;
+}
+
+function updateFooter() {
+  const allItems = document.querySelectorAll(".summary-item");
+  let correct = 0, incorrect = 0;
+
+  allItems.forEach(item => {
+    if (item.classList.contains("correct")) correct++;
+    else if (item.classList.contains("incorrect")) incorrect++;
+  });
+
+  let attempted = allItems.length;
+  let unattempted = totalQuestions - attempted;
+
+  document.getElementById("attempt-summary").innerText =
+    Total Attempted: ${attempted} | Total Unattempted: ${unattempted} | Correct: ${correct} | Incorrect: ${incorrect};
 }
 
 function startTimer() {
@@ -154,20 +174,19 @@ function startTimer() {
 
   let time = duration * 60;
 
-  // Clear any existing timer
   if (countdownInterval) clearInterval(countdownInterval);
 
   countdownInterval = setInterval(() => {
     if (time < 0) {
-  clearInterval(countdownInterval);
-  container.textContent = "Time's up!";
-  alert("Time's up!");
-  return;
-}
+      clearInterval(countdownInterval);
+      container.textContent = "Time's up!";
+      alert("Time's up!");
+      return;
+    }
 
     const mins = Math.floor(time / 60);
     const secs = time % 60;
-    container.textContent = `Time Left: ${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    container.textContent = Time Left: ${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')};
     time--;
   }, 1000);
 }
