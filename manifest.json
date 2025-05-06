@@ -2,7 +2,7 @@
 {
   "name": "OMR Sheet App",
   "short_name": "OMR",
-  "start_url": "./index.html",
+  "start_url": "./?utm_source=homescreen",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#2196f3",
