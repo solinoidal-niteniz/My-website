@@ -75,7 +75,6 @@ function createOMRSheet(total, optionCount, labelType) {
       circle.onclick = function () {
         const alreadySelected = qDiv.querySelector('.option.selected');
         if (alreadySelected) return;
-
         circle.classList.add('selected');
         history.push(circle);
       };
@@ -111,7 +110,9 @@ function showSummary() {
   const attemptSummaryDiv = document.getElementById("attempt-summary");
   summaryDiv.innerHTML = "";
 
-  let attempted = 0, correct = 0, incorrect = 0;
+  let attempted = 0;
+
+  let unattemptedList = [];
 
   for (let i = 1; i <= totalQuestions; i++) {
     const qDiv = document.querySelector(`.question[data-question="${i}"]`);
@@ -136,11 +137,21 @@ function showSummary() {
 
       summaryDiv.appendChild(item);
       attempted++;
+    } else {
+      unattemptedList.push(i);
     }
   }
 
   let unattempted = totalQuestions - attempted;
-  attemptSummaryDiv.innerText = `Total Attempted: ${attempted} | Total Unattempted: ${unattempted} | Correct: 0 | Incorrect: 0`;
+  let footerText = `Total Attempted: ${attempted} | Total Unattempted: ${unattempted} | Correct: 0 | Incorrect: 0`;
+
+  // Add unattempted questions list
+  if (unattemptedList.length > 0) {
+    let list = unattemptedList.join(', ');
+    footerText += `\nUnattempted Questions: ${list}`;
+  }
+
+  attemptSummaryDiv.innerText = footerText;
 }
 
 function updateFooter() {
@@ -155,8 +166,22 @@ function updateFooter() {
   let attempted = allItems.length;
   let unattempted = totalQuestions - attempted;
 
-  document.getElementById("attempt-summary").innerText =
-    `Total Attempted: ${attempted} | Total Unattempted: ${unattempted} | Correct: ${correct} | Incorrect: ${incorrect}`;
+  let text = `Total Attempted: ${attempted} | Total Unattempted: ${unattempted} | Correct: ${correct} | Incorrect: ${incorrect}`;
+
+  // Show unattempted question numbers again
+  let unattemptedList = [];
+  for (let i = 1; i <= totalQuestions; i++) {
+    const qDiv = document.querySelector(`.question[data-question="${i}"]`);
+    const selected = qDiv.querySelector('.option.selected');
+    if (!selected) unattemptedList.push(i);
+  }
+
+  if (unattemptedList.length > 0) {
+    let list = unattemptedList.join(', ');
+    text += `\nUnattempted Questions: ${list}`;
+  }
+
+  document.getElementById("attempt-summary").innerText = text;
 }
 
 function startTimer() {
