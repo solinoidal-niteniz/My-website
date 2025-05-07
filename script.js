@@ -219,3 +219,56 @@ function startTimer() {
 function stopCountdown() {
   clearInterval(countdownInterval);
 }
+
+
+
+// Feature: Upload Answer Key and auto mark correct/incorrect
+const uploadInput = document.createElement("input");
+uploadInput.type = "file";
+uploadInput.accept = ".txt";
+uploadInput.style.display = "block";
+uploadInput.style.margin = "20px auto";
+uploadInput.onchange = function () {
+  const file = uploadInput.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const answerKey = e.target.result.trim().split(/\r?\n/);
+    applyAnswerKey(answerKey);
+  };
+  reader.readAsText(file);
+};
+document.body.appendChild(uploadInput);
+
+function applyAnswerKey(answerKey) {
+  const summaryDiv = document.getElementById("summary");
+  const summaryItems = summaryDiv.querySelectorAll(".summary-item");
+
+  summaryItems.forEach(item => {
+    const qNum = parseInt(item.textContent.match(/\d+/)[0]);
+    const selectedAns = item.textContent.match(/\(([^\)]+)\)/)[1].trim();
+
+    let line = answerKey[qNum - 1]?.trim();
+    if (!line) return;
+
+    let correctAns = line.includes('=') ? line.split('=')[1].trim() : line.trim();
+
+    // Normalize both selected and correct answers
+    const normalize = val => {
+      if (!val) return '';
+      if (!isNaN(val)) return val; // number like "1", "2"
+      return val.toLowerCase();    // a–e or A–E → lowercase
+    };
+
+    if (normalize(selectedAns) === normalize(correctAns)) {
+      item.classList.remove("incorrect");
+      item.classList.add("correct");
+    } else {
+      item.classList.remove("correct");
+      item.classList.add("incorrect");
+    }
+  });
+
+  updateFooter();
+}
